@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Company Directory for fictional company">
+  <meta name="author" content="Davide Branciamore">
+
+  <title>Company Directory</title>
+
+  <link href="libs/css/bootstrap.min.css" rel="stylesheet">
+  <link href="node_modules/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="libs/css/style.css" rel="stylesheet">
+
+
+</head>
+
+<body>
+  <div class="container">
+   
+        <img src="images/mobilex_logo.png" id="logo">
+      
+
+      <div class="dropdown">
+        <button class="input-group-text-xlg bg-light text-primary  dropdown-toggle" type="button" id="addDropdown"
+          data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="far fa-plus-square"></i>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addEmployeeModal" href="#">Employee</a></li>
+          <li><a class="dropdown-item" href="#">Department</a></li>
+          <li><a class="dropdown-item" href="#">Location</a></li>
+        </ul>
+      </div>
+    
+  </div>
+<div class="container">
+  <ul class="nav justify-content-end">
+    <li class="nav-item">
+      <a class="nav-link active" aria-current="page" href="#">Departments</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">Locations</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">Employees</a>
+    </li>
+
+  </ul>
+</div>
+
+<div class="container">
+  <div class="input-group">
+    <span class="input-group-text bg-light text-primary">Search</span>
+    <input id="firstName" type="text" aria-label="First name" class="form-control" placeholder="First Name">
+    <input id="lastName" type="text" aria-label="Last name" class="form-control" placeholder="Last Name">
+    <button type="submit" class="input-group-text bg-light text-primary"><i class="fas fa-search"></i></button>
+  </div>
+</div>
+  <br>
+
+  <div id="dataTable" class="container">
+  <table class="table table-success table-striped">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">First</th>
+        <th scope="col">Last</th>
+        <th scope="col">Email</th>
+        <th scope="col">Department</th>
+        <th scope="col">Location</th>
+      </tr>
+    </thead>
+    <tbody id="data">
+    
+      
+    </tbody>
+  </table>
+</div>
+
+
+<div class="modal" id="addEmployeeModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title bg-primary" id="addModalHeader"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+        <form class="mb-3 row addEmployeeModal">
+          <div class="mb-3"></div>
+            <label class="visually-hidden" for="autoSizingInput">First Name</label>
+            <input type="text" class="form-control" id="addFirstName" placeholder="First Name">
+          </div>
+          <div class="mb-3">
+            <label class="visually-hidden" for="autoSizingInput">Surname</label>
+            <input type="text" class="form-control" id="addSurname" placeholder="Last Name">
+          </div>
+          <div class="mb-3">
+            <label class="visually-hidden" for="autoSizingInput">Job Title</label>
+            <input type="text" class="form-control" id="addJobTitle" placeholder="Job Title">
+          </div>
+          <div class="mb-3">
+            <input type="text" class="form-control" placeholder="email" aria-label="email">
+          </div>
+          <div class="mb-3">
+            
+          </div>
+          <div class="mb-3">
+            <label class="visually-hidden" for="autoSizingSelect">Preference</label>
+            <select class="form-select" id="autoSizingSelect">
+              <option selected disabled>Department</option>
+              <option value="1">Human Resources</option>
+              <option value="2">Sales</option>
+              <option value="3">Marketing</option>
+              <option value="4">Legal</option>
+              <option value="5">Services</option>
+              <option value="6">Research and Development</option>             </option>
+              <option value="7">Product Management</option>
+              <option value="8">Training</option>
+              <option value="9">Support</option>
+              <option value="10">Engineering</option>
+              <option value="11">Accounting</option>
+              <option value="12">Business Development</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label class="visually-hidden" for="autoSizingSelect">Preference</label>
+            <select class="form-select" id="autoSizingSelect">
+              <option selected disabled>Location</option>
+              <option value="1">London</option>
+              <option value="2">New York</option>
+              <option value="3">Paris</option>
+              <option value="4">Munich</option>
+              <option value="5">Rome</option>
+              
+            </select>
+          </div>        
+        </form>
+      </div>
+      <div class="modal-footer"></div>       
+          <button type="submit" class="btn btn-light text-primary"><i class="far fa-plus-square"></i></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  <script src="libs/js/bootstrap.bundle.js"></script>
+  <script src="libs/js/jquery.min.js"></script>
+  <script src="libs/js/script.js"></script>
+</body>
+
+</html>

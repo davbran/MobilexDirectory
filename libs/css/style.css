@@ -1,0 +1,10 @@
+
+#logo{
+    max-width: 100px;
+    float:left;
+    margin-bottom:10px;
+}
+
+#addDropdown {
+    float:right;
+}
