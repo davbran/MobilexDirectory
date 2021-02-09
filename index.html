@@ -3,158 +3,196 @@
 
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="Company Directory for fictional company">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Company Directory for fictional company 'Mobilex">
   <meta name="author" content="Davide Branciamore">
 
-  <title>Company Directory</title>
+  <title>Mobilex Company Directory</title>
 
-  <link href="libs/css/bootstrap.min.css" rel="stylesheet">
-  <link href="node_modules/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
-  <link href="libs/css/style.css" rel="stylesheet">
-
+  <link type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link type="text/css" href="node_modules/datatables.net-dt/css/jquery.dataTables.min.css" rel="stylesheet">
+  <link type="text/css" href="node_modules/datatables.net/buttons/buttons.min.css" rel="stylesheet">
+  <link type="text/css" href="node_modules/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link type="text/css" href="libs/css/style.css" rel="stylesheet">
 
 </head>
 
 <body>
-  <div class="container">
-   
-        <img src="images/mobilex_logo.png" id="logo">
-      
 
-      <div class="dropdown">
-        <button class="input-group-text-xlg bg-light text-primary  dropdown-toggle" type="button" id="addDropdown"
-          data-bs-toggle="dropdown" aria-expanded="false">
-          <i class="far fa-plus-square"></i>
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addEmployeeModal" href="#">Employee</a></li>
-          <li><a class="dropdown-item" href="#">Department</a></li>
-          <li><a class="dropdown-item" href="#">Location</a></li>
-        </ul>
-      </div>
-    
-  </div>
+ 
 <div class="container">
-  <ul class="nav justify-content-end">
-    <li class="nav-item">
-      <a class="nav-link active" aria-current="page" href="#">Departments</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">Locations</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">Employees</a>
-    </li>
+    <img src="images/mobilex_logo.png" id="logo">
 
-  </ul>
-</div>
+    <!-- add dropdown -->
 
-<div class="container">
-  <div class="input-group">
-    <span class="input-group-text bg-light text-primary">Search</span>
-    <input id="firstName" type="text" aria-label="First name" class="form-control" placeholder="First Name">
-    <input id="lastName" type="text" aria-label="Last name" class="form-control" placeholder="Last Name">
-    <button type="submit" class="input-group-text bg-light text-primary"><i class="fas fa-search"></i></button>
+
+
+
+    <!-- <button class="btn btn-light text-primary dropdown-toggle" type="select" id="departmentDropdown"
+          data-toggle="dropdown" aria-expanded="false">Departments</button>
+        <div id="departments" class="dropdown-menu" aria-labelledby="dropdownMenuButton"></div> -->
+    <select id="departments" class="form-select form-select-lg mb-3" aria-label="Default select example">
+      <option selected disabled=true>Departments</option>
+    </select>
+
+
+
+    <select id="locations" class="form-select form-select-lg mb-3" aria-label="Default select example">
+      <option selected disabled=true>Locations</option>
+    </select>
+
+
+    <button id="showAll" class="btn btn-primary">Show All</button>
+
+
+    <button class="btn btn-primary" type="button" id="addDropdown" data-toggle="dropdown" aria-expanded="false">
+      <i class="far fa-plus-square"></i>
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <a class="dropdown-item" data-toggle="modal" data-target="#addEmployeeModal" href="#">Employee</a>
+      <a class="dropdown-item" data-toggle="modal" data-target="#addDepartmentModal" href="#">Department</a>
+      <a class="dropdown-item" data-toggle="modal" data-target="#addLocationModal" href="#">Location</a>
+    </div>
+  
+
+<!-- Main Table -->
+
+  
+
+
+    <table id="dataTable" class=" table-responsive table-striped table-hover" style="width:100%">
+      <thead>
+        <tr>
+          <th>Last Name</th>
+          <th>First Name</th>
+          <th>Job Title</th>
+          <th>Email</th>
+          <th>Department</th>
+          <th>Location</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
   </div>
-</div>
-  <br>
-
-  <div id="dataTable" class="container">
-  <table class="table table-success table-striped">
-    <thead>
-      <tr>
-        <th scope="col">ID</th>
-        <th scope="col">First</th>
-        <th scope="col">Last</th>
-        <th scope="col">Email</th>
-        <th scope="col">Department</th>
-        <th scope="col">Location</th>
-      </tr>
-    </thead>
-    <tbody id="data">
-    
-      
-    </tbody>
-  </table>
-</div>
 
 
-<div class="modal" id="addEmployeeModal" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title bg-primary" id="addModalHeader"></h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="container">
-        <form class="mb-3 row addEmployeeModal">
-          <div class="mb-3"></div>
-            <label class="visually-hidden" for="autoSizingInput">First Name</label>
-            <input type="text" class="form-control" id="addFirstName" placeholder="First Name">
+  <!-- MODALS -->
+
+  <!-- Add Employee Modal -->
+  <div class="modal" id="addEmployeeModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-primary" id="addModalHeader">Add Personnel</h5>
+          <button type="button" class="btn text-primary" data-dismiss="modal" aria-label="Close"><i class="far fa-window-close"></i></button>
+        </div>
+        <div class="modal-body">
+          <div class="container">
+            <form class="mb-3 row">
+              <div class="mb-3">
+              <label class="visually-hidden" for="addFirstName">First Name</label>
+              <input type="text" class="form-control" id="addFirstName" placeholder="First Name">
           </div>
           <div class="mb-3">
-            <label class="visually-hidden" for="autoSizingInput">Surname</label>
+            <label class="visually-hidden" for="addSurname">Surname</label>
             <input type="text" class="form-control" id="addSurname" placeholder="Last Name">
           </div>
           <div class="mb-3">
-            <label class="visually-hidden" for="autoSizingInput">Job Title</label>
+            <label class="visually-hidden" for="addJobTitle">Job Title</label>
             <input type="text" class="form-control" id="addJobTitle" placeholder="Job Title">
           </div>
           <div class="mb-3">
+            <label class="visually-hidden" for="addJobTitle">Email</label>
             <input type="text" class="form-control" placeholder="email" aria-label="email">
           </div>
           <div class="mb-3">
-            
-          </div>
-          <div class="mb-3">
-            <label class="visually-hidden" for="autoSizingSelect">Preference</label>
-            <select class="form-select" id="autoSizingSelect">
-              <option selected disabled>Department</option>
-              <option value="1">Human Resources</option>
-              <option value="2">Sales</option>
-              <option value="3">Marketing</option>
-              <option value="4">Legal</option>
-              <option value="5">Services</option>
-              <option value="6">Research and Development</option>             </option>
-              <option value="7">Product Management</option>
-              <option value="8">Training</option>
-              <option value="9">Support</option>
-              <option value="10">Engineering</option>
-              <option value="11">Accounting</option>
-              <option value="12">Business Development</option>
+            <label class="visually-hidden" for="departmentSelect">Department</label>
+            <select class="form-select departmentSelect" id="departmentSelect">
+              <option selected disabled=true>Department</option>
             </select>
           </div>
-
           <div class="mb-3">
-            <label class="visually-hidden" for="autoSizingSelect">Preference</label>
-            <select class="form-select" id="autoSizingSelect">
-              <option selected disabled>Location</option>
-              <option value="1">London</option>
-              <option value="2">New York</option>
-              <option value="3">Paris</option>
-              <option value="4">Munich</option>
-              <option value="5">Rome</option>
-              
+            <label class="visually-hidden" for="locationSelect">Location</label>
+            <select class="form-select locationSelect">
+              <option selected disabled=true>Location</option>
             </select>
-          </div>        
-        </form>
-      </div>
-      <div class="modal-footer"></div>       
-          <button type="submit" class="btn btn-light text-primary"><i class="far fa-plus-square"></i></button>
-      </div>
+          </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+        <button type="submit" class="btn btn-light text-primary"><i class="far fa-plus-square"></i>&nbspAdd Employee</button>
+        <button type="button" class="btn btn-light text-primary" data-dismiss="modal" aria-label="Close">
+          <i class="far fa-window-close"></i>&nbsp Cancel</button>
+      </div></div>
     </div>
   </div>
-</div>
+  </div>
+
+
+  <!-- Add department Modal -->
+  <div class="modal" id="addDepartmentModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-primary">Add Personnel</h5>
+          <button type="button" class="btn text-primary" data-dismiss="modal" aria-label="Close"><i class="far fa-window-close"></i></button>
+        </div>
+        <div class="modal-body">
+          <div class="container">
+            <form class="mb-3 row">
+          <div class="mb-3">
+            <label class="visually-hidden" for="addDepartmentSelect">Department Name</label>
+            <input id="addDepartmentSelect" type="text" class="form-control" placeholder="Department Name" aria-label="department">
+          </div>
+          <div class="mb-3">
+            <label class="visually-hidden" for="addDepLocationSelect">Location</label>
+            <select id="addDepLocationSelect "class="form-select locationSelect">
+            </select>
+          </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+        <button type="submit" class="btn btn-light text-primary"><i class="far fa-plus-square"></i>&nbspAdd Department</button>
+        <button type="button" class="btn btn-light text-primary" data-dismiss="modal" aria-label="Close">
+          <i class="far fa-window-close"></i>&nbsp Cancel</button>
+      </div></div>
+    </div>
+  </div>
+  </div>
+
+   <!-- Add department Modal -->
+   <div class="modal" id="addLocationModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-primary">Add Location</h5>
+          <button type="button" class="btn text-primary" data-dismiss="modal" aria-label="Close"><i class="far fa-window-close"></i></button>
+        </div>
+        <div class="modal-body">
+          <div class="container">
+            <form class="mb-3 row">
+          <div class="mb-3">
+            <label class="visually-hidden" for="addLocationSelect">Location Name</label>
+            <input id="addLocationSelect" type="text" class="form-control" placeholder="Location Name" aria-label="location">
+          </div>
+        </div>
+        <div class="modal-footer">
+        <button type="submit" class="btn btn-light text-primary"><i class="far fa-plus-square"></i>&nbspAdd Location</button>
+        <button type="button" class="btn btn-light text-primary" data-dismiss="modal" aria-label="Close">
+          <i class="far fa-window-close"></i>&nbsp Cancel</button>
+      </div></div>
+    </div>
+  </div>
+  </div>
 
 
 
+  <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
+  <script type="text/javascript" src="node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
+  <script type="text/javascript" src="node_modules/datatables.net/js/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" src="node_modules/datatables.net/buttons/buttons.min.js"></script>
+  <script type="text/javascript" src="node_modules/datatables.net/buttons/colvis.min.js"></script>
 
-
-  <script src="libs/js/bootstrap.bundle.js"></script>
-  <script src="libs/js/jquery.min.js"></script>
-  <script src="libs/js/script.js"></script>
+  <script type="text/javascript" src="libs/js/script.js"></script>
 </body>
 
 </html>

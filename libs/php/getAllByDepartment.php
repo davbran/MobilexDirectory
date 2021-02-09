@@ -2,8 +2,8 @@
 
 
 	
-	ini_set('display_errors', 'On');
-	error_reporting(E_ALL);
+	/* ini_set('display_errors', 'On');
+	error_reporting(E_ALL); */
 
 	$executionStartTime = microtime(true);
 
@@ -33,8 +33,8 @@
     FROM personnel p 
     LEFT JOIN department d ON (d.id = p.departmentID) 
     LEFT JOIN location l ON (l.id = d.locationID) 
-    WHERE d.id ='. $_REQUEST["departmentId"].' 
-    ORDER BY p.lastName, p.firstName, d.name, l.name';
+    WHERE d.id = '. $_REQUEST["depID"].'
+    ORDER BY p.lastName, p.firstName,  d.name, l.name';
 
 	$result = $conn->query($query);
 	
