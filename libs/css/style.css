@@ -1,7 +1,18 @@
 
 #logo{
-    max-width: 100px;
-    float:left;
-    margin-bottom:10px;
+    max-width: 80px;
 }
 
+thead {
+    background-color: #cce5ff;
+}
+
+#dataTable_filter {
+    margin-bottom: 5px;
+}
+ 
+.my-select {
+    background-color: #cce5ff;
+    
+    padding: 6px 20px;
+  }

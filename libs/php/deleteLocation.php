@@ -32,19 +32,11 @@
 
 	}	
 
-	// $query = 'SELECT p.lastName, p.firstName, p.jobTitle, p.email, d.name as department, l.name as location
-    //         FROM personnel p 
-    //         LEFT JOIN department d ON (d.id = p.departmentID)
-    //         LEFT JOIN location l ON (l.id = d.locationID)
-    //         WHERE l.id = ' . $_POST['locationID'] .'
-    //         ORDER BY p.lastName, p.firstName, d.name, l.name';
-
-  
 	$query = 'SELECT p.lastName, p.firstName, p.jobTitle, p.email, d.name as department, l.name as location
             FROM personnel p 
             LEFT JOIN department d ON (d.id = p.departmentID)
             LEFT JOIN location l ON (l.id = d.locationID)
-            WHERE l.id = 7
+            WHERE l.id = ' . $_POST['locationID'] .'
             ORDER BY p.lastName, p.firstName, d.name, l.name';
 
 	$result = $conn->query($query);
@@ -82,10 +74,22 @@
   // echo $entries;
 
   if ($entries == 0) {
-    // $query = 'DELETE FROM location WHERE id = ' . $_POST['locationID'];
-    $query = 'DELETE FROM location WHERE id = 7';
+    $query = 'DELETE FROM location WHERE id = ' . $_POST['locationID'];
+    //$query = 'DELETE FROM location WHERE id = 7';
     $result = $conn->query($query);
-  } 
+  
+} else {
+	$output['status']['code'] = "400";
+	$output['status']['name'] = "executed";
+	$output['status']['description'] = "Cannot delete location with dependencies";	
+	$output['data'] = [];
+
+	mysqli_close($conn);
+
+	echo json_encode($output); 
+
+	exit;
+  }
   mysqli_close($conn);
 
   echo json_encode($output); 

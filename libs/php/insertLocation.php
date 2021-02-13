@@ -5,8 +5,8 @@
 
 	// remove next two lines for production
 	
-	ini_set('display_errors', 'On');
-	error_reporting(E_ALL);
+	/* ini_set('display_errors', 'On');
+	error_reporting(E_ALL); */
 
 	$executionStartTime = microtime(true);
 
@@ -34,7 +34,7 @@
 
 	// $_REQUEST used for development / debugging. Remember to cange to $_POST for production
 
-	$query = 'INSERT INTO location (name) VALUES' . $_REQUEST["name"];
+	$query = 'INSERT INTO location (name) VALUES("' . $_REQUEST['name'] . '")';
 
 	$result = $conn->query($query);
 	

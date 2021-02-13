@@ -85,7 +85,18 @@
     $query = 'DELETE FROM department WHERE id = ' . $_POST['departmentID'];
     // $query = 'DELETE FROM department WHERE id = 16';
     $result = $conn->query($query);
-  } 
+  } else {
+	$output['status']['code'] = "400";
+	$output['status']['name'] = "executed";
+	$output['status']['description'] = "Cannot delete department with dependencies";	
+	$output['data'] = [];
+
+	mysqli_close($conn);
+
+	echo json_encode($output); 
+
+	exit;
+  }
   mysqli_close($conn);
 
   echo json_encode($output); 

@@ -30,13 +30,13 @@
 
   }	
   
-  $filteredDptName = filter_var($_POST['dptName'], FILTER_SANITIZE_STRING);
+  $filteredDptName = filter_var($_POST['departmentName'], FILTER_SANITIZE_STRING);
  
 
 
 	// $_REQUEST used for development / debugging. Remember to cange to $_POST for production
 
-  $query = 'UPDATE department SET name = "'. $filteredDptName. '"' .'WHERE id = ' . $_POST['dptID'];
+  $query = 'UPDATE department SET name = "'. $filteredDptName. '", locationID = '. $_POST['locationID'].' WHERE id = ' . $_POST['departmentID'];
   
 
 	$result = $conn->query($query);
