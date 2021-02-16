@@ -10,93 +10,101 @@
   <title>Mobilex Company Directory</title>
 
   <link type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link type="text/css" href="node_modules/datatables.net-dt/css/jquery.dataTables.min.css" rel="stylesheet">
-  <link type="text/css" href="node_modules/datatables.net/buttons/buttons.min.css" rel="stylesheet">
+  <link type="text/css" href="node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet">
   <link type="text/css" href="node_modules/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
   <link type="text/css" href="node_modules/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
   <link type="text/css" href="libs/css/style.css" rel="stylesheet">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.ico">
+
 
 </head>
 
 <body>
 
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="width:100%">
+    <span class="navbar-brand" href="#"><img src="images/mobilex_logo.png" id="logo"></span>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-  <div class="container bg-light">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item p-1 ">
+          <select id="departments" class="form-select my-select" aria-label="Default select example">
+            <option selected disabled=true>Departments</option>
+          </select>
+        </li>
+        <li class="nav-item p-1 ">
+          <select id="locations" class="form-select my-select" aria-label="Default select example">
+            <option selected disabled=true>Locations&nbsp</option>
+          </select>
+        </li>
+        <li class="nav-item p-1 ">
+        
+          <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+            <button class="btn btn-dark" id="showAll">Show All</button>
+          
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div class="container-fluid">
-        <span class="navbar-brand" href="#"><img src="images/mobilex_logo.png" id="logo"></span>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02"
-          aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item p-1 ">
+          <div class="btn-group" role="group">
+            <button class="nav-item p-1 btn btn-dark dropdown-toggle" id="editDropdown" role="button"
+              data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Edit
+            </button>
+            <ul id="editDropdownList" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <li><a id="editDepModalBtn" class="dropdown-item" data-bs-toggle="modal"
+                  data-bs-target="#editDepartmentModal">Department</a></li>
+              <li><a id="editLocModalBtn" class="dropdown-item" data-bs-toggle="modal"
+                  data-bs-target="#editLocationModal">Location</a></li>
+            </ul>
+          
 
-              <select id="departments" class="custom-select my-select" aria-label="Default select example">
-                <option selected disabled=true>Departments</option>
-              </select>
-            </li>
-            <li class="nav-item p-1 ">
-              <select id="locations" class="custom-select my-select" aria-label="Default select example">
-                <option selected disabled=true>Locations&nbsp</option>
-              </select>
-            </li>
-            <li class="nav-item p-1">
-              <button class="btn " id="showAll">Show All</button>
-            </li>
-            <li class="nav-item dropdown p-1">
-              <button class="nav-item p-1 btn dropdown-toggle" id="editDropdown" role="button" data-bs-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                Edit
-              </button>
-              <div id="editDropdownList" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#editDepartmentModal">Department</a>
-                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#editLocationModal">Location</a>
-              </div>
-            <li class="nav-item dropdown p-1">
-              <button class="nav-item p-1 btn dropdown-toggle" id="addDropdown" role="button" data-bs-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                Add
-              </button>
-              <div id="addDropdownList" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">Employee</a>
-                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addDepartmentModal">Department</a>
-                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addLocationModal">Location</a>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+          <div class="btn-group" role="group">
+            <button class="nav-item btn p-1 btn-dark dropdown-toggle" id="addDropdown" role="button"
+              data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Add
+            </button>
+            <ul id="addDropdownList" class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+              <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">Employee</a></li>
+              <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addDepartmentModal">Department</a>
+              </li>
+              <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addLocationModal">Location</a></li>
+            </ul>
+          </div>
+          </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+
 
 
   </div>
-
   <!-- Main Table -->
+  <table id="dataTable" class="table table-sm table-secondary table-striped table-borderless" style="width:100%">
+    <thead class="table-dark">
+      <tr>
+
+        <th style="display: none">ID</th>
+        <th>Last Name</th>
+        <th>First Name</th>
+        <th>Job Title</th>
+        <th>Email</th>
+        <th>Department</th>
+        <th style="display: none">Deparment ID</th>
+        <th>Location</th>
+        <th>Edit</th>
 
 
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
 
-  <div class="container">
-    <table id="dataTable" class="table table-bordered table-striped table-hover compact" style="width:100%">
-      <thead>
-        <tr>
-
-          <th style="display: none">ID</th>
-          <th>Last Name</th>
-          <th>First Name</th>
-          <th>Job Title</th>
-          <th>Email</th>
-          <th>Department</th>
-          <th style="display: none">Deparment ID</th>
-          <th>Location</th>
-          <th>Edit</th>
-          <th>Delete</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-  </div>
 
 
 
@@ -108,9 +116,9 @@
   <div class="modal fade" id="addEmployeeModal" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title text-primary" id="addModalHeader">Add Personnel</h5>
-          <button type="button" class="btn text-primary" data-bs-dismiss="modal" aria-label="Close"><i
+        <div class="modal-header bg-secondary">
+          <h5 class="modal-title text-light" id="addModalHeader">Add Personnel</h5>
+          <button type="button" class="btn text-secondary" data-bs-dismiss="modal" aria-label="Close"><i
               class="far fa-window-close"></i></button>
         </div>
         <div class="modal-body">
@@ -137,9 +145,9 @@
             </form>
           </div>
           <div class="modal-footer">
-            <button id="addEmpBtn" type="submit" class="btn btn-add btn-success btn-xs"><i
+            <button id="addEmpBtn" type="submit" class="btn btn-add alert-success "><i
                 class="far fa-plus-square"></i>&nbspAdd Employee</button>
-            <button type="button" class="btn btn-cancel btn-warning btn-xs" data-bs-dismiss="modal" aria-label="Close">
+            <button type="button" class="btn btn-cancel alert-warning" data-bs-dismiss="modal" aria-label="Close">
               <i class="far fa-window-close"></i>&nbsp Cancel</button>
           </div>
         </div>
@@ -152,9 +160,9 @@
   <div class="modal fade" id="addDepartmentModal" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title text-primary">Add Department</h5>
-          <button type="button" class="btn text-primary" data-bs-dismiss="modal" aria-label="Close"><i
+        <div class="modal-header bg-secondary">
+          <h5 class="modal-title text-light">Add Department</h5>
+          <button type="button" class="btn text-light" data-bs-dismiss="modal" aria-label="Close"><i
               class="far fa-window-close"></i></button>
         </div>
         <div class="modal-body">
@@ -173,9 +181,9 @@
             </form>
           </div>
           <div class="modal-footer">
-            <button id="addDepBtn" type="submit" class="btn btn-add btn-success btn-xs"><i
+            <button id="addDepBtn" type="submit" class="btn btn-add alert-success "><i
                 class="far fa-plus-square"></i>&nbspAdd Department</button>
-            <button type="button" class="btn btn-cancel btn-warning btn-xs" data-bs-dismiss="modal" aria-label="Close">
+            <button type="button" class="btn btn-cancel alert-warning " data-bs-dismiss="modal" aria-label="Close">
               <i class="far fa-window-close"></i>&nbsp Cancel</button>
           </div>
         </div>
@@ -187,9 +195,9 @@
   <div class="modal fade" id="addLocationModal" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title text-primary">Add Location</h5>
-          <button type="button" class="btn text-primary" data-bs-dismiss="modal" aria-label="Close"><i
+        <div class="modal-header bg-secondary">
+          <h5 class="modal-title text-light">Add Location</h5>
+          <button type="button" class="btn text-light" data-bs-dismiss="modal" aria-label="Close"><i
               class="far fa-window-close"></i></button>
         </div>
         <div class="modal-body">
@@ -203,9 +211,9 @@
         </div>
 
         <div class="modal-footer">
-          <button id="addLocBtn" type="submit" class="btn btn-add btn-success btn-xs"><i
-              class="far fa-plus-square"></i>&nbsp Add Location</button>
-          <button type="button" class="btn btn-cancel btn-warning btn-xs" data-bs-dismiss="modal" aria-label="Close">
+          <button id="addLocBtn" type="submit" class="btn btn-add alert-success"><i class="far fa-plus-square"></i>&nbsp
+            Add Location</button>
+          <button type="button" class="btn btn-cancel alert-warning" data-bs-dismiss="modal" aria-label="Close">
             <i class="far fa-window-close"></i>&nbsp Cancel</button>
         </div>
       </div>
@@ -217,9 +225,9 @@
   <div class="modal fade" id="editEmployeeModal" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title text-primary" id="addModalHeader">Edit&nbsp <span id="empName"></span> Personnel</h5>
-          <button type="button" class="btn text-primary" data-bs-dismiss="modal" aria-label="Close"><i
+        <div class="modal-header bg-secondary">
+          <h5 class="modal-title text-light">Edit Personnel</h5>
+          <button type="button" class="btn text-secondary" data-bs-dismiss="modal" aria-label="Close"><i
               class="far fa-window-close"></i></button>
         </div>
         <div class="modal-body">
@@ -254,9 +262,9 @@
             </form>
           </div>
           <div class="modal-footer">
-            <button id="editEmpBtn" type="submit" class="btn btn-add btn-success btn-xs">
+            <button id="editEmpBtn" type="submit" class="btn btn-add alert-success">
               <i class='far fa-edit'></i>&nbspEdit Employee</button>
-            <button type="button" class="btn btn-cancel btn-warning btn-xs" data-bs-dismiss="modal" aria-label="Close">
+            <button type="button" class="btn btn-cancel alert-warning" data-bs-dismiss="modal" aria-label="Close">
               <i class="far fa-window-close"></i>&nbsp Cancel</button>
           </div>
         </div>
@@ -265,13 +273,12 @@
   </div>
 
   <!-- Edit Department Modal -->
-  <div class="modal fade" id="editDepartmentModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
+  <div class="modal fade" id="editDepartmentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Edit Department</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-header bg-secondary">
+          <h5 class="modal-title text-light" id="exampleModalLabel">Edit Department</h5>
+          <button type="button" class="btn-close text-light" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <form>
@@ -290,11 +297,11 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button id="editDepBtn" type="submit" class="btn btn-add btn-success btn-xs">
+          <button id="editDepBtn" type="submit" class="btn btn-add alert-success">
             <i class='far fa-edit'></i></i>&nbspEdit Department</button>
-            <button id='delDepBtn' class='btn btn-danger btn-xs'>
-              <i class='far fa-trash-alt'></i>&nbspDelete Department</button>
-          <button type="button" class="btn btn-cancel btn-warning btn-xs" data-bs-dismiss="modal" aria-label="Close">
+          <button id='delDepBtn' class='btn alert-danger'>
+            <i class='far fa-trash-alt'></i>&nbspDelete Department</button>
+          <button type="button" class="btn btn-cancel alert-warning" data-bs-dismiss="modal" aria-label="Close">
             <i class="far fa-window-close"></i>&nbsp Cancel</button>
         </div>
       </div>
@@ -303,13 +310,12 @@
 
 
   <!-- Edit Location Modal -->
-  <div class="modal fade" id="editLocationModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
+  <div class="modal fade" id="editLocationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Edit Location</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-header bg-secondary">
+          <h5 class="modal-title text-light" id="exampleModalLabel">Edit Location</h5>
+          <button type="button" class="btn-close text-light" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <form>
@@ -325,11 +331,11 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button id="editLocBtn" type="submit" class="btn btn-add btn-success btn-xs">
+          <button id="editLocBtn" type="submit" class="btn btn-add alert-success">
             <i class='far fa-edit'></i></i>&nbspEdit Location</button>
-          <button id='delLocBtn' class='btn btn-danger btn-xs'>
+          <button id='delLocBtn' class='btn alert-danger'>
             <i class='far fa-trash-alt'></i>&nbspDelete Location</button>
-          <button type="button" class="btn btn-cancel btn-warning btn-xs" data-bs-dismiss="modal" aria-label="Close">
+          <button type="button" class="btn btn-cancel alert-warning" data-bs-dismiss="modal" aria-label="Close">
             <i class="far fa-window-close"></i>&nbsp Cancel</button>
         </div>
       </div>
@@ -340,8 +346,7 @@
   <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
   <script type="text/javascript" src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <script type="text/javascript" src="node_modules/datatables.net/js/jquery.dataTables.min.js"></script>
-  <script type="text/javascript" src="node_modules/datatables.net/buttons/buttons.min.js"></script>
-  <script type="text/javascript" src="node_modules/datatables.net/buttons/colvis.min.js"></script>
+  <script type="text/javascript" src="node_modules/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
   <script type="text/javascript" src="node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
 
   <script type="text/javascript" src="libs/js/script.js"></script>

@@ -1,13 +1,33 @@
 //Initiate table with datatables
-let table = $('#dataTable').DataTable({
+let table = $('#dataTable').DataTable();
 
-});
+let tableOptions = {
+     "paging": true,
+     "lengthChange": true,
+     "searching": true,
+     "processing": true,
+     "ordering": true,
+     "info": false,
+     "pageLength": 25,
+     "dom": '<"top"f>rtip'
+};
 
 //Reset search dropdowns
 function reset() {
-     document.getElementById("departments", "locations").selectedIndex = 0;
-    
+     document.getElementById(
+          'departments',
+          'departmentSelect',
+          'addEmpDepSelect',
+          'editEmpDep',
+          'editDepSelect',
+          'locations',
+          'locationSelect',
+          'editLocSelect',
+          'addDepLocSelect')
+          .selectedIndex = 0;
 };
+
+$('.btn-cancel').click(reset);
 
 //View all
 const getAll = () => {
@@ -17,27 +37,18 @@ const getAll = () => {
      table.destroy();
 
      table = $('#dataTable').DataTable({
-          "paging": true,
-          "lengthChange": true,
-          "searching": true,
-          "processing": true,
-          "ordering": true,
-          "info": false,
-          "responsive": true,
 
           "pageLength": 25,
-          "dom": '<"top"f>rtip',
-          "fnDrawCallback": function (oSettings) {
-          },
+
           "ajax": {
                "url": "libs/php/getAll.php",
                "type": "POST",
                "datatype": "json"
           },
           error: function (result, textStatus, errorThrown) {
-               swal.fire("Error retrieving data", 
-               result.status.description,
-               "error");
+               swal.fire("Error retrieving data",
+                    result.status.description,
+                    "error");
           },
 
           columns: [
@@ -51,27 +62,24 @@ const getAll = () => {
                { 'data': 'location' },
                {
                     "data": null, render: function (data, type, row) {
-                         return "<button title='Edit' class='btn btn-edit btn-warning btn-xs'><i class='far fa-edit'></i></button>";
+                         return "<button title='Edit' class='btn btn-edit alert-success btn-xs'><i class='far fa-edit'></i></button>&nbsp&nbsp<button title='Delete' class='btn btn-delete alert-danger btn-xs'><i class='far fa-trash-alt'></i></button>";
                     }
-               },
-               {
-                    "data": null, render: function (data, type, row) {
-                         return "<button title='Delete' class='btn btn-delete btn-danger btn-xs'><i class='far fa-trash-alt'></i></i></button> ";
-                    }
-               },
-
+               }
           ]
      });
 };
+
+$('#showAll').click(getAll);
 
 //Get all departments
 const getAllDepartments = () => {
      reset();
      $('#departments, #departmentSelect, #addEmpDepSelect, #editEmpDep, #editDepSelect')
-       .empty();
+          .empty();
+
      $('#departments, #departmentSelect, #addEmpDepSelect, #editEmpDep, #editDepSelect')
-       .append('<option selected disabled=true>Department</option>');
-     
+          .append('<option selected disabled=true>Department</option>');
+
      $.ajax({
           url: 'libs/php/getAllDepartments.php',
           type: 'GET',
@@ -82,15 +90,15 @@ const getAllDepartments = () => {
                $.each(data, function (i, value) {
 
                     $('#departments, #departmentSelect, #addEmpDepSelect, #editEmpDep, #editDepSelect')
-                      .append(`<option title= "${value.name}" value="${value.id}"/>${value.name}</option>`);
+                         .append(`<option value="${value.id}" data-locationID="${value.locationID}"/>${value.name}</option>`);
                })
 
 
           },
           error: function (result, textStatus, errorThrown) {
-               swal.fire("Error retrieving data", 
-               result.status.description,
-               "error");
+               swal.fire("Error retrieving data",
+                    result.status.description,
+                    "error");
           },
 
      })
@@ -106,18 +114,7 @@ $('#departments').change(function () {
      table.destroy();
 
      table = $('#dataTable').DataTable({
-          "paging": true,
-          "lengthChange": false,
-          "searching": true,
-          "processing": true,
-          "ordering": true,
-          "info": false,
-          "responsive": true,
-
           "pageLength": 25,
-          "dom": '<"top"f>rtip',
-          "fnDrawCallback": function (oSettings) {
-          },
           "ajax": {
                "url": "libs/php/getAllByDepartment.php",
                "type": "POST",
@@ -127,9 +124,9 @@ $('#departments').change(function () {
                },
           },
           error: function (result, textStatus, errorThrown) {
-               swal.fire("Error retrieving departments", 
-               result.status.description,
-               "error");
+               swal.fire("Error retrieving departments",
+                    result.status.description,
+                    "error");
           },
 
           columns: [
@@ -143,14 +140,9 @@ $('#departments').change(function () {
                { 'data': 'location' },
                {
                     "data": null, render: function (data, type, row) {
-                         return "<button title='Edit' class='btn btn-edit btn-warning btn-xs'><i class='far fa-edit'></i></button>";
+                         return "<button title='Edit' class='btn btn-edit alert-success btn-xs'><i class='far fa-edit'></i></button>&nbsp&nbsp<button title='Delete' class='btn btn-delete alert-danger btn-xs'><i class='far fa-trash-alt'></i></button>";
                     }
-               },
-               {
-                    "data": null, render: function (data, type, row) {
-                         return "<button title='Delete' class='btn btn-delete btn-danger btn-xs'><i class='far fa-trash-alt'></i></i></button> ";
-                    }
-               },
+               }
           ]
      });
 });
@@ -159,10 +151,11 @@ $('#departments').change(function () {
 const getAllLocations = () => {
      reset();
      $('#locations, #locationSelect, #editLocSelect, #addDepLocSelect, #editDepLocSelect')
-       .empty();
+          .empty();
+
      $('#locations, #locationSelect, #editLocSelect, #addDepLocSelect, #editDepLocSelect')
-       .append('<option selected disabled=true>Location</option>');
-     
+          .append('<option selected disabled=true>Location</option>');
+
      $.ajax({
           url: 'libs/php/getAllLocations.php',
           type: 'GET',
@@ -170,16 +163,16 @@ const getAllLocations = () => {
 
           success: function (result) {
                const data = result.data;
-          
+
                $.each(data, function (i, value) {
                     $('#locations, #editLocSelect, #locationSelect, #addDepLocSelect, #editDepLocSelect')
-                    .append(`<option value="${value.id}"/>${value.name}</option>`);
+                         .append(`<option value="${value.id}"/>${value.name}</option>`);
                })
           },
           error: function (result, textStatus, errorThrown) {
-               swal.fire("Error retrieving locations", 
-               result.status.description,
-               "error");
+               swal.fire("Error retrieving locations",
+                    result.status.description,
+                    "error");
           }
      })
 };
@@ -194,18 +187,7 @@ $('#locations').change(function () {
      table.destroy();
 
      table = $('#dataTable').DataTable({
-          "paging": true,
-          "lengthChange": false,
-          "searching": true,
-          "processing": true,
-          "ordering": true,
-          "info": false,
-          "responsive": true,
-
           "pageLength": 25,
-          "dom": '<"top"f>rtip',
-          "fnDrawCallback": function (oSettings) {
-          },
           "ajax": {
                "url": "libs/php/getAllByLocation.php",
                "type": "POST",
@@ -216,8 +198,8 @@ $('#locations').change(function () {
           },
           error: function (request, textStatus, errorThrown) {
                swal.fire("Error",
-               request.status.description,
-               "error");
+                    request.status.description,
+                    "error");
           },
 
           columns: [
@@ -231,14 +213,9 @@ $('#locations').change(function () {
                { 'data': 'location' },
                {
                     "data": null, render: function (data, type, row) {
-                         return "<button title='Edit' class='btn btn-edit btn-warning btn-xs'><i class='far fa-edit'></i></button>";
+                         return "<button title='Edit' class='btn btn-edit alert-success btn-xs'><i class='far fa-edit'></i></button>&nbsp&nbsp<button title='Delete' class='btn btn-delete alert-danger btn-xs'><i class='far fa-trash-alt'></i></button>";
                     }
-               },
-               {
-                    "data": null, render: function (data, type, row) {
-                         return "<button title='Delete' class='btn btn-delete btn-danger btn-xs'><i class='far fa-trash-alt'></i></i></button> ";
-                    }
-               },
+               }
           ]
      });
 });
@@ -295,42 +272,34 @@ $("#addEmpBtn").click(function () {
                          jobTitle: $("#addJobTitle").val(),
                          email: $("#addEmail").val(),
                          departmentID: $("#addEmpDepSelect").val(),
-
                     },
-
                     success: function (result) {
-                         
+
                          if (result.status.code == 200) {
                               swal.fire("Success",
-                              "New employee added",
-                              "success");
+                                   "New employee added",
+                                   "success");
                               getAll();
-                              
+
                          } else {
                               swal.fire("Error trying to add employee",
-                              result.status.description,
-                              "error");
+                                   result.status.description,
+                                   "error");
                          }
                     },
                     error: function (result, textStatus, errorThrown) {
                          swal.fire("Error ", result.status.description, "error");
                     },
-
                })
-
-
           } else {
                swal.fire("Employee not added");
-
           }
      })
      $('#addEmployeeModal').modal('hide');
-     reset();
+
 });
 
-
 // Add Department
-
 $("#addDepBtn").click(function () {
      if ($("#addDepartmentSelect").val() == '') {
           swal.fire({
@@ -339,7 +308,7 @@ $("#addDepBtn").click(function () {
           });
           return;
      }
-     if ($("#addDepLocSelect").val() == '') {
+     if ($("#addDepLocSelect :selected").val() == '') {
           swal.fire({
                text: "Please choose Location",
                icon: 'error'
@@ -376,31 +345,33 @@ $("#addDepBtn").click(function () {
                     success: function (result) {
                          if (result.status.code == 200) {
                               swal.fire("Success",
-                              "New Department added",
-                              "info"
-                              );
+                                   "New Department added",
+                                   "info");
                               getAllDepartments();
-                              
+
                          } else {
-                              swal.fire("Error ", 
-                              result.status.description, 
-                              "error")
+                              swal.fire("Error ",
+                                   result.status.description,
+                                   "error")
                          }
                     },
                     error: function (result, textStatus, errorThrown) {
-                         swal.fire("Error ", 
-                         result.status.description, 
-                         "error");
+                         swal.fire("Error ",
+                              result.status.description,
+                              "error");
                     },
 
                })
 
           } else {
-               swal.fire({icon: 'info',
-               text: "Department not added"});
+               swal.fire({
+                    icon: 'info',
+                    text: "Department not added"
+               });
 
           }
      })
+
      $('#addDepartmentModal').modal('hide');
      reset();
 });
@@ -452,29 +423,31 @@ $("#addLocBtn").click(function () {
                                    "Success",
                                    "New Location added",
                                    "success");
-                                   getAllLocations();
-                                   
-                         
+                              getAllLocations();
+
                          } else {
-                              swal.fire("Error ", 
-                              result.status.description, 
-                              "error")
+                              swal.fire("Error ",
+                                   result.status.description,
+                                   "error")
                          }
                     },
                     error: function (result, textStatus, errorThrown) {
-                         swal.fire("Error ", 
-                         result.status.description, 
-                         "error");
+                         swal.fire("Error ",
+                              result.status.description,
+                              "error");
                     },
 
                })
 
           } else {
-               swal.fire({icon: 'info',
-               text: "Location not added"});
+               swal.fire({
+                    icon: 'info',
+                    text: "Location not added"
+               });
 
           }
      })
+
      $('#addLocationModal').modal('hide');
      reset();
 });
@@ -500,19 +473,22 @@ $(document).on("click", ".btn-edit", function () {
           if ($("#editFirstName").val() == '') {
                swal.fire({
                     text: "Please enter First Name",
-                    icon: 'error'});
+                    icon: 'error'
+               });
                return;
           }
           if ($("#editSurname").val() == '') {
                swal.fire({
                     text: "Please enter Surname",
-                    icon: 'error'});
+                    icon: 'error'
+               });
                return;
           }
           if ($("#editEmail").val() == '') {
                swal.fire({
                     text: "Please enter Email address",
-                    icon: 'error'});
+                    icon: 'error'
+               });
                return;
           }
 
@@ -552,34 +528,38 @@ $(document).on("click", ".btn-edit", function () {
                               console.log(result);
 
                               if (result.status.code == 200) {
-                                   swal.fire("Success", 
-                                   "Employee edited",
-                                   "success");
+                                   swal.fire("Success",
+                                        "Employee edited",
+                                        "success");
                                    getAll();
-                                  
+
 
 
                               } else {
                                    swal.fire("Error trying to edit employee",
-                                   result.status.description,
-                                   "error");
+                                        result.status.description,
+                                        "error");
                               }
                          },
                          error: function (result, textStatus, errorThrown) {
-                              swal.fire("Error ", 
-                              result.status.description, 
-                              "error");
+                              swal.fire("Error ",
+                                   result.status.description,
+                                   "error");
                          },
 
                     })
 
 
                } else {
-                    swal.fire({icon: 'info',
-                    text: "edit Employee Cancelled"});
+                    swal.fire({
+                         icon: 'info',
+                         text: "edit Employee Cancelled"
+                    });
 
                }
           })
+
+
           $('#editEmployeeModal').modal('hide');
           reset();
      });
@@ -587,10 +567,11 @@ $(document).on("click", ".btn-edit", function () {
 
 });
 
-$("#editDepSelect").change(function(){
-     
-     $('#editDepName').val($('#editDepSelect option:selected').text());
-     $('#editDepLocSelect').val();
+$("#editDepSelect").change(function () {
+     console.log($("#editDepSelect :selected").data('locationid'));
+
+     $('#editDepName').val($('#editDepSelect :selected').text());
+     $('#editDepLocSelect').val($("#editDepSelect :selected").data('locationid'));
 })
 
 $("#editDepBtn").click(function () {
@@ -621,7 +602,7 @@ $("#editDepBtn").click(function () {
                          departmentName: $("#editDepName").val(),
                          locationID: $("#editDepLocSelect").val(),
                          departmentID: $("#editDepSelect").val(),
-                         
+
 
                     },
 
@@ -629,34 +610,33 @@ $("#editDepBtn").click(function () {
                          console.log(result);
 
                          if (result.status.code == 200) {
-                              swal.fire("Success", 
-                              "Department edited",
-                              "success");
+                              swal.fire("Success",
+                                   "Department edited",
+                                   "success");
                               getAllDepartments();
-                              
+
 
 
                          } else {
-                              swal.fire("Error trying to edit Department", 
-                              result.status.description,
-                              "error");
+                              swal.fire("Error trying to edit Department",
+                                   result.status.description,
+                                   "error");
                          }
                     },
                     error: function (result, textStatus, errorThrown) {
-                         swal.fire("Error ", 
-                         result.status.description, 
-                         "error");
+                         swal.fire("Error ",
+                              result.status.description,
+                              "error");
                     },
-
                })
-
-
           } else {
-               swal.fire({icon: 'info',
-               text: "Edit Department Cancelled"});
-
+               swal.fire({
+                    icon: 'info',
+                    text: "Edit Department Cancelled"
+               });
           }
      })
+
      $('#editDepartmentModal').modal('hide');
      reset();
 });
@@ -689,39 +669,31 @@ $("#editLocBtn").click(function () {
                     data: {
                          locationName: $("#editLocName").val(),
                          locationID: $("#editLocSelect").val(),
-
                     },
-
                     success: function (result) {
-                         console.log(result);
 
                          if (result.status.code == 200) {
-                              swal.fire("Success", 
-                              "Location edited", 
-                              "success");
-                              getAllLocations();
-                             
-
-
+                              swal.fire("Success",
+                                   "Location edited",
+                                   "success");
                          } else {
-                              swal.fire("Error trying to edit Location", 
-                              result.status.description,
-                              "error");
+                              swal.fire("Error trying to edit Location",
+                                   result.status.description,
+                                   "error");
                          }
                     },
                     error: function (result, textStatus, errorThrown) {
                          swal.fire("Error ", result.status.description, "error");
                     },
-
                })
-
-
           } else {
-               swal.fire({icon: 'info',
-               text: "Edit Location Cancelled"});
-
+               swal.fire({
+                    icon: 'info',
+                    text: "Edit Location Cancelled"
+               });
           }
      })
+     getAllLocations();
      $('#editLocationModal').modal('hide');
      reset();
 });
@@ -764,16 +736,16 @@ $(document).on("click", ".btn-delete", function () {
                     success: function (result) {
 
                          if (result.status['code'] == 200) {
-                              swal.fire("Success", 
-                              "Employee file deleted", 
-                              "success");
+                              swal.fire("Success",
+                                   "Employee file deleted",
+                                   "success");
                               getAll();
-                             
+
 
                          } else {
                               swal.fire("Error deleting employee : ",
-                               result.status.description,
-                               "error")
+                                   result.status.description,
+                                   "error")
                          }
 
                     },
@@ -784,10 +756,14 @@ $(document).on("click", ".btn-delete", function () {
                })
 
           } else {
-               swal.fire({icon: 'info',
-               text: "Delete Employee Cancelled"});
+               swal.fire({
+                    icon: 'info',
+                    text: "Delete Employee Cancelled"
+               });
           }
      })
+     reset();
+
 });
 
 $("#delDepBtn").click(function () {
@@ -814,41 +790,46 @@ $("#delDepBtn").click(function () {
                     type: "POST",
                     dataType: "json",
                     data: {
-                         
+
                          departmentID: $("#editDepSelect").val(),
 
                     },
 
                     success: function (result) {
-                         
+
 
                          if (result.status.code == 200) {
                               swal.fire('Success!',
-                              'Department Deleted',
-                              'success');
+                                   'Department Deleted',
+                                   'success');
                               getAllDepartments();
-                              
+
 
 
                          } else {
-                              swal.fire('Error', 
-                              result.status.description,
-                              'error');
+                              swal.fire('Error',
+                                   result.status.description,
+                                   'error');
                          }
                     },
                     error: function (result, textStatus, errorThrown) {
-                         swal.fire("Error ", result.status.description, "error");
+                         swal.fire("Error ",
+                              result.status.description,
+                              "error");
                     },
 
                })
 
 
           } else {
-               swal.fire({icon: 'info',
-               text: "Delete Department Cancelled"});
+               swal.fire({
+                    icon: 'info',
+                    text: "Delete Department Cancelled"
+               });
 
           }
      })
+
      $('#editDepartmentModal').modal('hide');
      reset();
 });
@@ -879,25 +860,25 @@ $("#delLocBtn").click(function () {
                     type: "POST",
                     dataType: "json",
                     data: {
-                         
+
                          locationID: $("#editLocSelect").val(),
 
                     },
 
                     success: function (result) {
-                         
+
 
                          if (result.status.code == 200) {
                               swal.fire('Success!',
-                              'Location Deleted',
-                              'success');
+                                   'Location Deleted',
+                                   'success');
                               getAllLocations();
 
 
                          } else {
-                              swal.fire('Error', 
-                              `${result.status.description}`,
-                              'error');
+                              swal.fire('Error',
+                                   `${result.status.description}`,
+                                   'error');
                          }
                     },
                     error: function (result, textStatus, errorThrown) {
@@ -908,8 +889,10 @@ $("#delLocBtn").click(function () {
 
 
           } else {
-               swal.fire({icon: 'info',
-               text: "Delete Location Cancelled"});
+               swal.fire({
+                    icon: 'info',
+                    text: "Delete Location Cancelled"
+               });
 
           }
      })
@@ -917,8 +900,53 @@ $("#delLocBtn").click(function () {
      reset();
 });
 
+function resetEditDepartment() {
+     document.getElementById('editDepSelect').selectedIndex = 0;
+     document.getElementById('editDepName').value = "";
+     document.getElementById('editDepLocSelect').selectedIndex = 0;
+}
+
+$('#editDepModalBtn').click(resetEditDepartment);
+
 
 $(document).ready(function () {
+
+     //login alert
+
+     Swal.fire({
+          title: 'Mobilex Admin Login',
+          allowOutsideClick: false,
+          position: 'center',
+          grow: 'fullscreen',
+          backdrop:true,
+          heightAuto: false,
+          
+          background: '#212529',
+          html: `<input type="text" id="login" class="form-control" placeholder="Username">
+          <input type="password" id="password" class="form-control" placeholder="Password">`,
+          confirmButtonText: 'Sign in',
+          focusConfirm: false,
+          
+          preConfirm: () => {
+               const login = Swal.getPopup().querySelector('#login').value
+               const password = Swal.getPopup().querySelector('#password').value
+               if (!login || !password) {
+                    Swal.showValidationMessage(`Please enter login and password`)
+               }
+               else if (login !== "admin" || password !== "password") {
+                    Swal.showValidationMessage(`Login or password not found on system`)
+               }
+               else if (login == "admin" && password == "password") {
+                    return { login: login, password: password }
+               }
+          }
+
+     }).then((result) => {
+          Swal.fire(`
+            Logged in as ${result.value.login}
+          `.trim())
+     })
+
 
 
      getAll();
@@ -927,7 +955,30 @@ $(document).ready(function () {
 
      getAllLocations();
 
-     $('#showAll').click(getAll);
+     window.setMobileTable = function (selector) {
+          // if (window.innerWidth > 600) return false;
+          const tableEl = document.querySelector(selector);
+          const thEls = tableEl.querySelectorAll('thead th');
+          const tdLabels = Array.from(thEls).map(el => el.innerText);
+          tableEl.querySelectorAll('tbody tr').forEach(tr => {
+               Array.from(tr.children).forEach(
+                    (td, ndx) => td.setAttribute('label', tdLabels[ndx])
+               );
+          });
+     }
 
+     $(window).scroll(function () {
+          if ($(document).scrollTop() > 150) {
+               // Navigation Bar
+               $('.navbar').removeClass('fadeIn');
+               $('body').addClass('shrink');
+               $('.navbar').addClass('animated fadeInDown');
+          } else {
+               $('.navbar').removeClass('fadeInDown');
+               $('body').removeClass('shrink');
+               $('.navbar').addClass('animated fadeIn');
+          }
+     });
 
 });
+

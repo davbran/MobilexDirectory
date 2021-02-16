@@ -1,18 +1,81 @@
-
-#logo{
-    max-width: 80px;
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100vh;
+  
 }
 
-thead {
-    background-color: #cce5ff;
+.navbar-nav .dropdown-menu {
+    position: absolute;
 }
 
-#dataTable_filter {
-    margin-bottom: 5px;
+#logo {
+	max-height: 100px;
 }
- 
+
+#dataTable_filter, #dataTable_length {
+	margin: 5px;
+}
+
 .my-select {
-    background-color: #cce5ff;
-    
-    padding: 6px 20px;
-  }
+	padding: 6px 20px;
+}
+
+.btn-xs {
+	display: contents;
+    font-size: larger;
+}
+
+/* scrollbar*/
+
+::-webkit-scrollbar {
+	width: 7px;
+}
+
+/* Track */
+
+::-webkit-scrollbar-track {
+	-moz-box-shadow: inset 0 0 6px #292b2c;
+	-webkit-box-shadow: inset 0 0 6px #292b2c;
+	box-shadow: inset 0 6px #f8f9fa;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+}
+
+/* Handle */
+
+::-webkit-scrollbar-thumb {
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	background: #6c757d;
+	-webkit-box-shadow: inset 0 0 6px #6c757d;
+	-moz-box-shadow: inset 0 0 6px#6c757d;
+	box-shadow: inset 0 0 6px#292b2c;
+	border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:window-inactive {
+	background: #e5e5e5;
+}
+
+
+
+@media screen and (max-width: 600px) {
+	
+	table thead {
+		display: none;
+	}
+	table td {
+		display: flex;
+	}
+	table td::before {
+		content: attr(label);
+		font-weight: bold;
+		width: fit-content;
+		border: none;
+		padding: 8px 8px;
+		min-width: 80px;
+	}
+}
