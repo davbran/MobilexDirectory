@@ -936,7 +936,7 @@ $(document).ready(function () {
                else if (login !== "admin" || password !== "password") {
                     Swal.showValidationMessage(`Login or password not found on system`)
                }
-               else if (login == "admin" && password == "password") {
+               else if (login == {"admin"} && password == {"password"}) {
                     return { login: login, password: password }
                }
           }
