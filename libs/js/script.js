@@ -1,17 +1,6 @@
 //Initiate table with datatables
 let table = $('#dataTable').DataTable();
 
-let tableOptions = {
-     "paging": true,
-     "lengthChange": true,
-     "searching": true,
-     "processing": true,
-     "ordering": true,
-     "info": false,
-     "pageLength": 25,
-     "dom": '<"top"f>rtip'
-};
-
 //Reset search dropdowns
 function reset() {
      document.getElementById(
@@ -37,9 +26,13 @@ const getAll = () => {
      table.destroy();
 
      table = $('#dataTable').DataTable({
+          "paging": false,
+          "searching": true,
 
-          "pageLength": 25,
-
+          "order": [[1, "asc"]],
+          "info": false,
+          "scrollY": "73vh",
+          "dom": '<"top">ft',
           "ajax": {
                "url": "libs/php/getAll.php",
                "type": "POST",
@@ -78,7 +71,7 @@ const getAllDepartments = () => {
           .empty();
 
      $('#departments, #departmentSelect, #addEmpDepSelect, #editEmpDep, #editDepSelect')
-          .append('<option selected disabled=true>Department</option>');
+          .append('<option selected disabled=true value="0">Department</option>');
 
      $.ajax({
           url: 'libs/php/getAllDepartments.php',
@@ -114,7 +107,11 @@ $('#departments').change(function () {
      table.destroy();
 
      table = $('#dataTable').DataTable({
-          "pageLength": 25,
+          "paging": false,
+          "searching": true,
+          "order": [[1, "asc"]],
+          "info": false,
+          "dom": '<"top"f>rtip',
           "ajax": {
                "url": "libs/php/getAllByDepartment.php",
                "type": "POST",
@@ -154,7 +151,7 @@ const getAllLocations = () => {
           .empty();
 
      $('#locations, #locationSelect, #editLocSelect, #addDepLocSelect, #editDepLocSelect')
-          .append('<option selected disabled=true>Location</option>');
+          .append('<option selected disabled=true value="0">Location</option>');
 
      $.ajax({
           url: 'libs/php/getAllLocations.php',
@@ -187,7 +184,11 @@ $('#locations').change(function () {
      table.destroy();
 
      table = $('#dataTable').DataTable({
-          "pageLength": 25,
+          "paging": false,
+          "searching": true,
+          "order": [[1, "asc"]],
+          "info": false,
+          "dom": '<"top"f>rtip',
           "ajax": {
                "url": "libs/php/getAllByLocation.php",
                "type": "POST",
@@ -225,33 +226,34 @@ $("#addEmpBtn").click(function () {
      if ($("#addFirstName").val() == '') {
           swal.fire({
                text: "Please enter First Name",
-               icon: 'error'
+               icon: 'error',
+               toast: true,
           });
           return;
      }
      if ($("#addSurname").val() == '') {
           swal.fire({
                text: "Please enter Surname",
-               icon: 'error'
+               icon: 'error',
+               toast: true,
           });
           return;
      }
      if ($("#addEmail").val() == '') {
           swal.fire({
                text: "Please enter Email address",
-               icon: 'error'
+               icon: 'error',
+               toast: true,
           });
           return;
      }
 
      swal.fire({
           title: "New Personnel",
-          text: `Confirm new employee:
-          ${$("#addFirstName").val()} ${$("#addSurname").val()}`,
+          text: `Confirm new employee ${$("#addFirstName").val()} ${$("#addSurname").val()}`,
           icon: "info",
           showCloseButton: true,
           showCancelButton: true,
-          focusConfirm: false,
           confirmButtonText:
                '<i class="fa fa-thumbs-up"></i>',
           confirmButtonAriaLabel: 'Thumbs up',
@@ -276,9 +278,6 @@ $("#addEmpBtn").click(function () {
                     success: function (result) {
 
                          if (result.status.code == 200) {
-                              swal.fire("Success",
-                                   "New employee added",
-                                   "success");
                               getAll();
 
                          } else {
@@ -291,8 +290,6 @@ $("#addEmpBtn").click(function () {
                          swal.fire("Error ", result.status.description, "error");
                     },
                })
-          } else {
-               swal.fire("Employee not added");
           }
      })
      $('#addEmployeeModal').modal('hide');
@@ -304,14 +301,16 @@ $("#addDepBtn").click(function () {
      if ($("#addDepartmentSelect").val() == '') {
           swal.fire({
                text: "Please enter Department Name",
-               icon: 'error'
+               icon: 'error',
+               toast: true,
           });
           return;
      }
-     if ($("#addDepLocSelect :selected").val() == '') {
+     if ($("#addDepLocSelect :selected").val() == '0') {
           swal.fire({
                text: "Please choose Location",
-               icon: 'error'
+               icon: 'error',
+               toast: true,
           });
           return;
      }
@@ -323,7 +322,6 @@ $("#addDepBtn").click(function () {
           icon: "info",
           showCloseButton: true,
           showCancelButton: true,
-          focusConfirm: false,
           confirmButtonText:
                '<i class="fa fa-thumbs-up"></i>',
           confirmButtonAriaLabel: 'Thumbs up',
@@ -344,9 +342,7 @@ $("#addDepBtn").click(function () {
                     },
                     success: function (result) {
                          if (result.status.code == 200) {
-                              swal.fire("Success",
-                                   "New Department added",
-                                   "info");
+
                               getAllDepartments();
 
                          } else {
@@ -363,12 +359,6 @@ $("#addDepBtn").click(function () {
 
                })
 
-          } else {
-               swal.fire({
-                    icon: 'info',
-                    text: "Department not added"
-               });
-
           }
      })
 
@@ -381,7 +371,8 @@ $("#addLocBtn").click(function () {
      if ($("#addLocationSelect").val() == '') {
           swal.fire({
                text: "Please enter Location Name",
-               icon: 'error'
+               icon: 'error',
+               toast: true,
           });
           return;
      }
@@ -394,7 +385,6 @@ $("#addLocBtn").click(function () {
           icon: "warning",
           showCloseButton: true,
           showCancelButton: true,
-          focusConfirm: false,
           confirmButtonText:
                '<i class="fa fa-thumbs-up"></i>',
           confirmButtonAriaLabel: 'Thumbs up',
@@ -419,10 +409,6 @@ $("#addLocBtn").click(function () {
 
 
                          if (result.status.code == 200) {
-                              swal.fire(
-                                   "Success",
-                                   "New Location added",
-                                   "success");
                               getAllLocations();
 
                          } else {
@@ -439,15 +425,8 @@ $("#addLocBtn").click(function () {
 
                })
 
-          } else {
-               swal.fire({
-                    icon: 'info',
-                    text: "Location not added"
-               });
-
           }
      })
-
      $('#addLocationModal').modal('hide');
      reset();
 });
@@ -473,21 +452,24 @@ $(document).on("click", ".btn-edit", function () {
           if ($("#editFirstName").val() == '') {
                swal.fire({
                     text: "Please enter First Name",
-                    icon: 'error'
+                    icon: 'error',
+                    toast: true,
                });
                return;
           }
           if ($("#editSurname").val() == '') {
                swal.fire({
                     text: "Please enter Surname",
-                    icon: 'error'
+                    icon: 'error',
+                    toast: true,
                });
                return;
           }
           if ($("#editEmail").val() == '') {
                swal.fire({
                     text: "Please enter Email address",
-                    icon: 'error'
+                    icon: 'error',
+                    toast: true,
                });
                return;
           }
@@ -499,7 +481,6 @@ $(document).on("click", ".btn-edit", function () {
                icon: "info",
                showCloseButton: true,
                showCancelButton: true,
-               focusConfirm: false,
                confirmButtonText:
                     '<i class="fa fa-thumbs-up"></i>',
                confirmButtonAriaLabel: 'Thumbs up',
@@ -528,9 +509,7 @@ $(document).on("click", ".btn-edit", function () {
                               console.log(result);
 
                               if (result.status.code == 200) {
-                                   swal.fire("Success",
-                                        "Employee edited",
-                                        "success");
+
                                    getAll();
 
 
@@ -550,40 +529,39 @@ $(document).on("click", ".btn-edit", function () {
                     })
 
 
-               } else {
-                    swal.fire({
-                         icon: 'info',
-                         text: "edit Employee Cancelled"
-                    });
-
                }
           })
-
 
           $('#editEmployeeModal').modal('hide');
           reset();
      });
 
-
 });
 
 $("#editDepSelect").change(function () {
-     console.log($("#editDepSelect :selected").data('locationid'));
-
      $('#editDepName').val($('#editDepSelect :selected').text());
      $('#editDepLocSelect').val($("#editDepSelect :selected").data('locationid'));
 })
 
+
 $("#editDepBtn").click(function () {
+
+     if ($("#editDepSelect :selected").val() == "0") {
+          swal.fire({
+               text: "Please select department to edit",
+               icon: 'error',
+               toast: true,
+          });
+          return;
+     }
 
      swal.fire({
           title: "Edit Department",
-          text: `Confirm new Department information for:
+          text: `Confirm new department information for
           ${$("#editDepName").val()}`,
           icon: "info",
           showCloseButton: true,
           showCancelButton: true,
-          focusConfirm: false,
           confirmButtonText:
                '<i class="fa fa-thumbs-up"></i>',
           confirmButtonAriaLabel: 'Thumbs up',
@@ -602,21 +580,13 @@ $("#editDepBtn").click(function () {
                          departmentName: $("#editDepName").val(),
                          locationID: $("#editDepLocSelect").val(),
                          departmentID: $("#editDepSelect").val(),
-
-
                     },
 
                     success: function (result) {
                          console.log(result);
 
                          if (result.status.code == 200) {
-                              swal.fire("Success",
-                                   "Department edited",
-                                   "success");
                               getAllDepartments();
-
-
-
                          } else {
                               swal.fire("Error trying to edit Department",
                                    result.status.description,
@@ -629,14 +599,8 @@ $("#editDepBtn").click(function () {
                               "error");
                     },
                })
-          } else {
-               swal.fire({
-                    icon: 'info',
-                    text: "Edit Department Cancelled"
-               });
           }
      })
-
      $('#editDepartmentModal').modal('hide');
      reset();
 });
@@ -644,14 +608,21 @@ $("#editDepBtn").click(function () {
 
 $("#editLocBtn").click(function () {
 
+     if ($("#editLocSelect :selected").val() == "0") {
+          swal.fire({
+               text: "Please select location to edit",
+               icon: 'error',
+               toast: true,
+          });
+          return;
+     }
+
      swal.fire({
           title: "Edit Location",
-          text: `Confirm new Location information for:
-          ${$("#editLocName").val()}`,
+          text: `Confirm new location information for ${$("#editLocSelect :selected").text()}`,
           icon: "info",
           showCloseButton: true,
           showCancelButton: true,
-          focusConfirm: false,
           confirmButtonText:
                '<i class="fa fa-thumbs-up"></i>',
           confirmButtonAriaLabel: 'Thumbs up',
@@ -673,9 +644,8 @@ $("#editLocBtn").click(function () {
                     success: function (result) {
 
                          if (result.status.code == 200) {
-                              swal.fire("Success",
-                                   "Location edited",
-                                   "success");
+                              getAllLocations();
+
                          } else {
                               swal.fire("Error trying to edit Location",
                                    result.status.description,
@@ -686,14 +656,9 @@ $("#editLocBtn").click(function () {
                          swal.fire("Error ", result.status.description, "error");
                     },
                })
-          } else {
-               swal.fire({
-                    icon: 'info',
-                    text: "Edit Location Cancelled"
-               });
           }
      })
-     getAllLocations();
+
      $('#editLocationModal').modal('hide');
      reset();
 });
@@ -711,12 +676,11 @@ $(document).on("click", ".btn-delete", function () {
 
 
      swal.fire({
-          title: "Delete Employee?",
+          title: `Delete ${employee.firstName} ${employee.lastName}?`,
           text: "This cannot be undone",
           icon: "warning",
           showCloseButton: true,
           showCancelButton: true,
-          focusConfirm: false,
           confirmButtonText:
                '<i class="fa fa-thumbs-up"></i>',
           confirmButtonAriaLabel: 'Thumbs up',
@@ -736,18 +700,12 @@ $(document).on("click", ".btn-delete", function () {
                     success: function (result) {
 
                          if (result.status['code'] == 200) {
-                              swal.fire("Success",
-                                   "Employee file deleted",
-                                   "success");
                               getAll();
-
-
                          } else {
                               swal.fire("Error deleting employee : ",
                                    result.status.description,
                                    "error")
                          }
-
                     },
                     error: function (result, request, textStatus, errorThrown) {
                          swal.fire("Error" + result.code, result.description);
@@ -755,149 +713,161 @@ $(document).on("click", ".btn-delete", function () {
                     }
                })
 
-          } else {
-               swal.fire({
-                    icon: 'info',
-                    text: "Delete Employee Cancelled"
-               });
           }
      })
      reset();
-
 });
 
 $("#delDepBtn").click(function () {
 
-     swal.fire({
-          title: "Delete department?",
-          text: 'Confirm Delete Department, this cannot be undone?',
-          icon: "warning",
-          showCloseButton: true,
-          showCancelButton: true,
-          focusConfirm: false,
-          confirmButtonText:
-               '<i class="fa fa-thumbs-up"></i>',
-          confirmButtonAriaLabel: 'Thumbs up',
-          cancelButtonText:
-               '<i class="fa fa-thumbs-down"></i>',
-          cancelButtonAriaLabel: 'Thumbs down'
+     if ($("#editDepSelect :selected").val() == "0") {
+          swal.fire({
+               text: "Please select department to delete",
+               icon: 'error',
+               toast: true,
+          });
+          return;
+     }
 
-     }).then((willDelete) => {
-          if (willDelete.isConfirmed) {
+     $.ajax({
+          url: 'libs/php/getDepartmentCount.php',
+          type: 'GET',
+          dataType: "json",
+          data: {
+               departmentID: $("#editDepSelect").val(),
+          },
+          success: function (result) {
+               console.log(result.data[0]["COUNT(id)"]);
+               if (result.data[0]["COUNT(id)"] !== '0') {
+                    swal.fire('Can not delete!',
+                         `Department has ${result.data[0]["COUNT(id)"]} employees`,
+                         'error');
 
-               $.ajax({
-                    url: "libs/php/deleteDepartment.php",
-                    type: "POST",
-                    dataType: "json",
-                    data: {
-
-                         departmentID: $("#editDepSelect").val(),
-
-                    },
-
-                    success: function (result) {
+               } else
 
 
-                         if (result.status.code == 200) {
-                              swal.fire('Success!',
-                                   'Department Deleted',
-                                   'success');
-                              getAllDepartments();
+                    swal.fire({
+                         title: `Delete Department?`,
+                         text: `Confirm Delete ${$("#editDepName").val()}, this cannot be undone?`,
+                         icon: "warning",
+                         showCloseButton: true,
+                         showCancelButton: true,
+                         confirmButtonText:
+                              '<i class="fa fa-thumbs-up"></i>',
+                         confirmButtonAriaLabel: 'Thumbs up',
+                         cancelButtonText:
+                              '<i class="fa fa-thumbs-down"></i>',
+                         cancelButtonAriaLabel: 'Thumbs down'
 
+                    }).then((willDelete) => {
+                         if (willDelete.isConfirmed) {
 
+                              $.ajax({
+                                   url: "libs/php/deleteDepartmentById.php",
+                                   type: "POST",
+                                   dataType: "json",
+                                   data: {
 
-                         } else {
-                              swal.fire('Error',
-                                   result.status.description,
-                                   'error');
+                                        departmentID: $("#editDepSelect").val(),
+                                   },
+                                   success: function (result) {
+                                        if ((result.status.code == 400)) {
+                                             swal.fire('Error',
+                                                  result.status.description,
+                                                  'error');
+
+                                        } else if (result.status.code == 200) {
+                                             getAllDepartments();
+                                        }
+                                   },
+                                   error: function (result, textStatus, errorThrown) {
+                                        swal.fire("Error ",
+                                             result.status.description,
+                                             "error");
+                                   },
+                              })
                          }
-                    },
-                    error: function (result, textStatus, errorThrown) {
-                         swal.fire("Error ",
-                              result.status.description,
-                              "error");
-                    },
-
-               })
-
-
-          } else {
-               swal.fire({
-                    icon: 'info',
-                    text: "Delete Department Cancelled"
-               });
-
+                    })
+               $('#editDepartmentModal').modal('hide');
+               reset();
           }
      })
-
-     $('#editDepartmentModal').modal('hide');
-     reset();
 });
-
-
 
 $("#delLocBtn").click(function () {
 
-     swal.fire({
-          title: "Delete Location?",
-          text: 'Confirm Delete Location, this cannot be undone?',
-          icon: "warning",
-          showCloseButton: true,
-          showCancelButton: true,
-          focusConfirm: false,
-          confirmButtonText:
-               '<i class="fa fa-thumbs-up"></i>',
-          confirmButtonAriaLabel: 'Thumbs up',
-          cancelButtonText:
-               '<i class="fa fa-thumbs-down"></i>',
-          cancelButtonAriaLabel: 'Thumbs down'
+     if ($("#editLocSelect :selected").val() == "0") {
+          swal.fire({
+               text: "Please select location to delete",
+               icon: 'error',
+               toast: true,
+          });
+          return;
+     }
 
-     }).then((willDelete) => {
-          if (willDelete.isConfirmed) {
+     $.ajax({
+          url: 'libs/php/getLocationCount.php',
+          type: 'GET',
+          dataType: "json",
+          data: {
+               locationID: $("#editLocSelect").val(),
+          },
+          success: function (result) {
+               console.log(result.data[0]["COUNT(id)"]);
+               if (result.data[0]["COUNT(id)"] !== '0') {
+                    swal.fire('Cannot delete!',
+                         `Location has ${result.data[0]["COUNT(id)"]} departments`,
+                         'error');
 
-               $.ajax({
-                    url: "libs/php/deleteLocation.php",
-                    type: "POST",
-                    dataType: "json",
-                    data: {
-
-                         locationID: $("#editLocSelect").val(),
-
-                    },
-
-                    success: function (result) {
+               } else
 
 
-                         if (result.status.code == 200) {
-                              swal.fire('Success!',
-                                   'Location Deleted',
-                                   'success');
-                              getAllLocations();
+                    swal.fire({
+                         title: `Delete ${$("#editLocSelect :selected").text()}?`,
+                         text: `Confirm delete, this cannot be undone?`,
+                         icon: "warning",
+                         showCloseButton: true,
+                         showCancelButton: true,
+                         confirmButtonText:
+                              '<i class="fa fa-thumbs-up"></i>',
+                         confirmButtonAriaLabel: 'Thumbs up',
+                         cancelButtonText:
+                              '<i class="fa fa-thumbs-down"></i>',
+                         cancelButtonAriaLabel: 'Thumbs down'
 
+                    }).then((willDelete) => {
+                         if (willDelete.isConfirmed) {
 
-                         } else {
-                              swal.fire('Error',
-                                   `${result.status.description}`,
-                                   'error');
+                              $.ajax({
+                                   url: "libs/php/deleteLocationById.php",
+                                   type: "POST",
+                                   dataType: "json",
+                                   data: {
+
+                                        locationID: $("#editLocSelect").val(),
+                                   },
+                                   success: function (result) {
+                                        if ((result.status.code == 400)) {
+                                             swal.fire('Error',
+                                                  result.status.description,
+                                                  'error');
+
+                                        } else if (result.status.code == 200) {
+                                             getAllLocations();
+                                        }
+                                   },
+                                   error: function (result, textStatus, errorThrown) {
+                                        swal.fire("Error ",
+                                             result.status.description,
+                                             "error");
+                                   },
+                              })
                          }
-                    },
-                    error: function (result, textStatus, errorThrown) {
-                         swal.fire("Error ", result.status.description, "error");
-                    },
-
-               })
-
-
-          } else {
-               swal.fire({
-                    icon: 'info',
-                    text: "Delete Location Cancelled"
-               });
-
+                    })
+               $('#editLocationModal').modal('hide');
+               reset();
           }
      })
-     $('#editLocationModal').modal('hide');
-     reset();
 });
 
 function resetEditDepartment() {
@@ -906,54 +876,22 @@ function resetEditDepartment() {
      document.getElementById('editDepLocSelect').selectedIndex = 0;
 }
 
-$('#editDepModalBtn').click(resetEditDepartment);
+$('#editDepModalBtn').on('click', resetEditDepartment);
+
+
+$("#navbar-toggle").click(function() {
+     $("#dataTable_wrapper").toggleClass("expanded");
+}); 
 
 
 $(document).ready(function () {
-
-     //login alert
-
-     Swal.fire({
-          title: 'Mobilex Admin Login',
-          allowOutsideClick: false,
-          position: 'center',
-          grow: 'fullscreen',
-          backdrop:true,
-          heightAuto: false,
-          
-          background: '#212529',
-          html: `<input type="text" id="login" class="form-control" placeholder="Username">
-          <input type="password" id="password" class="form-control" placeholder="Password">`,
-          confirmButtonText: 'Sign in',
-          focusConfirm: false,
-          
-          preConfirm: () => {
-               const login = Swal.getPopup().querySelector('#login').value
-               const password = Swal.getPopup().querySelector('#password').value
-               if (!login || !password) {
-                    Swal.showValidationMessage(`Please enter login and password`)
-               }
-               else if (login !== "admin" || password !== "password") {
-                    Swal.showValidationMessage(`Login or password not found on system`)
-               }
-               else if (login == "admin" && password == "password") {
-                    return { login: login, password: password }
-               }
-          }
-
-     }).then((result) => {
-          Swal.fire(`
-            Logged in as ${result.value.login}
-          `.trim())
-     })
-
-
 
      getAll();
 
      getAllDepartments();
 
      getAllLocations();
+
 
      window.setMobileTable = function (selector) {
           // if (window.innerWidth > 600) return false;

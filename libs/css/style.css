@@ -3,6 +3,7 @@ html, body {
   padding: 0;
   width: 100%;
   height: 100vh;
+  background-color: #212529;
   
 }
 
@@ -14,8 +15,20 @@ html, body {
 	max-height: 100px;
 }
 
+.dataTables_wrapper{
+	padding-top: 128px;
+	transition: .19s;
+}
+
+.expanded {
+	padding-top: 237px;
+	transition: .19s; 
+}
+
 #dataTable_filter, #dataTable_length {
-	margin: 5px;
+	float: left;
+	color:#e5e5e5;
+	font-weight: bolder;
 }
 
 .my-select {
@@ -61,6 +74,12 @@ html, body {
 }
 
 
+@media screen and (min-width: 768px) {
+	.dataTables_wrapper {
+		padding-top: 128px;
+	}
+}
+
 
 @media screen and (max-width: 600px) {
 	
@@ -78,4 +97,15 @@ html, body {
 		padding: 8px 8px;
 		min-width: 80px;
 	}
+
+	.dataTables_scrollBody{
+		max-height: 80vh !important; 
+		height: 80vh !important; 
+	}
+
+	.expanded {
+		padding-top: 221px;
+		transition-duration: .19s;
+	}
 }
+		

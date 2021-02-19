@@ -1,5 +1,10 @@
 <?php
 
+
+	
+	/* ini_set('display_errors', 'On');
+	error_reporting(E_ALL); */
+
 	$executionStartTime = microtime(true);
 
 	include("config.php");
@@ -24,11 +29,12 @@
 
 	}	
 
-	//$query = 'SELECT id FROM personnel p WHERE departmentID = ' . $_POST['departmentID'];
-    $query = 'SELECT id FROM `personnel` WHERE departmentID = 1';
-           
-	$result = $conn->query($query);
+	$query = 'SELECT COUNT(id) 
+    FROM department 
+    WHERE locationID = '. $_REQUEST["locationID"];
 
+	$result = $conn->query($query);
+	
 	if (!$result) {
 
 		$output['status']['code'] = "400";
@@ -44,43 +50,22 @@
 
 	}
    
-	$data = [];
+   	$data = [];
 
- while ($row = mysqli_fetch_assoc($result)) {
+	while ($row = mysqli_fetch_assoc($result)) {
 
-	 array_push($data, $row);
+		array_push($data, $row);
 
- }
-
+	}
 
 	$output['status']['code'] = "200";
 	$output['status']['name'] = "ok";
 	$output['status']['description'] = "success";
 	$output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
 	$output['data'] = $data;
-  
-	$entries = count($data);
-	//echo $entries;
-  
-	if ($entries == 0) {
-	 // $query = 'DELETE FROM department WHERE id = ' . $_POST['departmentID'];
-	   $query = 'DELETE FROM department WHERE id = 1';
-	  $result = $conn->query($query);
-
-	} else {
-	  $output['status']['code'] = "400";
-	  $output['status']['name'] = "executed";
-	  $output['status']['description'] = "Department has ".$entries." employees. Unable to delete.";	
-	  $output['data'] = [];
-  
-	  mysqli_close($conn);
-  
-	  echo json_encode($output); 
-  
-	  exit;
-	}
+	
 	mysqli_close($conn);
-  
+
 	echo json_encode($output); 
 
 ?>
